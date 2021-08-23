@@ -6,7 +6,7 @@ public class Main : MonoBehaviour
 {
     public TMP_InputField nameIF;
     public TextMeshProUGUI stateIF;
-    private string textState;
+    private string textState = "IN ATTESA";
 
     public void GetFileToUpload()
     {
@@ -20,8 +20,9 @@ public class Main : MonoBehaviour
                 else
                     textState = "UTENTE RICONOSCIUTO: " + response.Split(' ')[1];
             });
-
+            
             textState = "RICONOSCIMENTO...";
+            
         }, () => { }, FileBrowser.PickMode.Files);
     }
 
