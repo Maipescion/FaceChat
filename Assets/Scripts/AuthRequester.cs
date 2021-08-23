@@ -4,9 +4,11 @@ using NetMQ;
 using NetMQ.Sockets;
 using UnityEngine;
 
-public class TestRequester : RunAbleThread
+public class AuthRequester : RunAbleThread
 {
     private RequestSocket client;
+
+    private Action<string> onTextReceived;
     
     protected override void Run()
     {
@@ -32,7 +34,11 @@ public class TestRequester : RunAbleThread
                     }
                 }
 
-                if (gotMessage) Debug.Log("Messaggio ricevuto: " + message);
+                if (gotMessage)
+                {
+                    Debug.Log("Messaggio ricevuto: " + message);
+                    onTextReceived?.Invoke(message);
+                }
             }
         }
 
@@ -44,4 +50,6 @@ public class TestRequester : RunAbleThread
         client.SendFrame(text);
         Debug.Log($"Messaggio inviato: {text}");
     }
+
+    public void SetOnTextReceivedListener(Action<string> onTextReceived) => this.onTextReceived = onTextReceived;
 }
